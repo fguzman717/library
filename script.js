@@ -22,10 +22,8 @@ function addBookToLibrary(title, author, pages, read) {
   myLibrary.push(newBook);
 }
 
-const theHobbit = addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, true);
-
-function displayBooks(array) {
-  return array.map((book) => {
+function displayBooks(library) {
+  return library.map((book) => {
     let bookCard = document.createElement("div");
     bookCard.classList.add("book-card");
     document.body.appendChild(bookCard);
@@ -51,13 +49,25 @@ function displayBooks(array) {
       ? "You have read this book before"
       : "You have not read this book yet";
     bookCard.appendChild(bookRead);
+
+    let removeBook = document.createElement("button");
+    removeBook.classList.add("remove-book-button");
+    removeBook.textContent = "Remove Book";
+    bookCard.appendChild(removeBook);
+
+    let currentBook = book.id;
+
+    removeBook.addEventListener("click", function () {
+      const index = library.findIndex((book) => book.id === currentBook);
+
+      if (index > -1) {
+        library.splice(index, 1);
+      }
+
+      bookCard.remove();
+    });
   });
 }
-
-// console.log(myLibrary);
-displayBooks(myLibrary);
-
-// Add a “New Book” button that brings up a form allowing users to input the details for the new book and add it to the library: author, title, number of pages, whether it’s been read and anything else you might want. How you decide to display this form is up to you. For example, you may wish to have a form show in a sidebar or you may wish to explore dialogs and modals using the <dialog> tag. However you do this, you will most likely encounter an issue where submitting your form will not do what you expect it to do. That’s because the submit input tries to send the data to a server by default. This is where event.preventDefault(); will come in handy. Check out the documentation for event.preventDefault and see how you can solve this issue!
 
 const newBookButton = document.createElement("button");
 newBookButton.textContent = "New Book";
@@ -169,3 +179,5 @@ newBookButton.addEventListener("click", function () {
     displayBooks(myLibrary);
   });
 });
+
+// const theHobbit = addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, true);
