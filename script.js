@@ -54,5 +54,118 @@ function displayBooks(array) {
   });
 }
 
-console.log(myLibrary);
+// console.log(myLibrary);
 displayBooks(myLibrary);
+
+// Add a “New Book” button that brings up a form allowing users to input the details for the new book and add it to the library: author, title, number of pages, whether it’s been read and anything else you might want. How you decide to display this form is up to you. For example, you may wish to have a form show in a sidebar or you may wish to explore dialogs and modals using the <dialog> tag. However you do this, you will most likely encounter an issue where submitting your form will not do what you expect it to do. That’s because the submit input tries to send the data to a server by default. This is where event.preventDefault(); will come in handy. Check out the documentation for event.preventDefault and see how you can solve this issue!
+
+const newBookButton = document.createElement("button");
+newBookButton.textContent = "New Book";
+document.body.appendChild(newBookButton);
+
+newBookButton.addEventListener("click", function () {
+  //Spacing
+  document.body.appendChild(document.createElement("br"));
+  document.body.appendChild(document.createElement("br"));
+
+  // Form Container
+  const formContainer = document.createElement("div");
+  formContainer.classList.add("form-container");
+  document.body.appendChild(formContainer);
+
+  // Book Title Field
+  const newTitleLabel = document.createElement("label");
+  newTitleLabel.textContent = "Book Title";
+  newTitleLabel.setAttribute("for", "book-title");
+  formContainer.appendChild(newTitleLabel);
+  formContainer.appendChild(document.createElement("br"));
+
+  const newBookTitle = document.createElement("input");
+  newBookTitle.type = "text";
+  newBookTitle.id = "book-title";
+  formContainer.appendChild(newBookTitle);
+  formContainer.appendChild(document.createElement("br"));
+  formContainer.appendChild(document.createElement("br"));
+
+  // Book Author Field
+  const newAuthorLabel = document.createElement("label");
+  newAuthorLabel.textContent = "Book Author";
+  newAuthorLabel.setAttribute("for", "book-author");
+  formContainer.appendChild(newAuthorLabel);
+  formContainer.appendChild(document.createElement("br"));
+
+  const newBookAuthor = document.createElement("input");
+  newBookAuthor.type = "text";
+  newBookAuthor.id = "book-author";
+  formContainer.appendChild(newBookAuthor);
+  formContainer.appendChild(document.createElement("br"));
+  formContainer.appendChild(document.createElement("br"));
+
+  // Book Page Count Field
+  const newPageCountLabel = document.createElement("label");
+  newPageCountLabel.textContent = "Page Count";
+  newPageCountLabel.setAttribute("for", "page-count");
+  formContainer.appendChild(newPageCountLabel);
+  formContainer.appendChild(document.createElement("br"));
+
+  const newBookPages = document.createElement("input");
+  newBookPages.type = "number";
+  newBookPages.id = "page-count";
+  formContainer.appendChild(newBookPages);
+  formContainer.appendChild(document.createElement("br"));
+  formContainer.appendChild(document.createElement("br"));
+
+  // Read Status Field
+  const readQuestion = document.createElement("p");
+  readQuestion.classList.add("read-question");
+  readQuestion.textContent = "Have you read this book before?";
+  formContainer.appendChild(readQuestion);
+  formContainer.appendChild(document.createElement("br"));
+
+  const readInput = document.createElement("input");
+  readInput.type = "radio";
+  readInput.name = "read-status";
+  readInput.value = true;
+  readInput.id = "read";
+  formContainer.appendChild(readInput);
+
+  const readLabel = document.createElement("label");
+  readLabel.textContent = " Yes";
+  readLabel.setAttribute("for", "read");
+  formContainer.appendChild(readLabel);
+  formContainer.appendChild(document.createElement("br"));
+
+  const notReadInput = document.createElement("input");
+  notReadInput.type = "radio";
+  notReadInput.name = "read-status";
+  notReadInput.value = false;
+  notReadInput.id = "not-read";
+  formContainer.appendChild(notReadInput);
+
+  const notReadLabel = document.createElement("label");
+  notReadLabel.textContent = " No";
+  notReadLabel.setAttribute("for", "not-read");
+  formContainer.appendChild(notReadLabel);
+  formContainer.appendChild(document.createElement("br"));
+  formContainer.appendChild(document.createElement("br"));
+  formContainer.appendChild(document.createElement("br"));
+
+  //Submit Button
+  const submitForm = document.createElement("button");
+  submitForm.textContent = "Submit";
+  formContainer.appendChild(submitForm);
+  submitForm.addEventListener("click", function () {
+    event.preventDefault();
+
+    let newTitle = newBookTitle.value;
+    let newAuthor = newBookAuthor.value;
+    let newPages = newBookPages.value;
+    let newStatus = JSON.parse(
+      document.querySelector('input[name="read-status"]:checked')?.value ||
+        false
+    );
+
+    addBookToLibrary(newTitle, newAuthor, newPages, newStatus);
+    displayBooks(myLibrary);
+  });
+});
