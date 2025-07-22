@@ -15,7 +15,14 @@ function Book(title, author, pages, read) {
       `${this.title} by ${this.author}, ${this.pages} pages, ${readBool}`
     );
   };
+  this.changeStatus = function () {
+    this.read = !this.read;
+  };
 }
+
+let libraryContainer = document.createElement("div");
+libraryContainer.classList.add("library-container");
+document.body.appendChild(libraryContainer);
 
 function addBookToLibrary(title, author, pages, read) {
   const newBook = new Book(title, author, pages, read);
@@ -26,7 +33,7 @@ function displayBooks(library) {
   return library.map((book) => {
     let bookCard = document.createElement("div");
     bookCard.classList.add("book-card");
-    document.body.appendChild(bookCard);
+    libraryContainer.appendChild(bookCard);
 
     let bookTitle = document.createElement("div");
     bookTitle.classList.add("book-title");
@@ -50,10 +57,14 @@ function displayBooks(library) {
       : "You have not read this book yet";
     bookCard.appendChild(bookRead);
 
+    let buttonContainer = document.createElement("div");
+    buttonContainer.classList.add("button-container");
+    bookCard.appendChild(buttonContainer);
+
     let removeBook = document.createElement("button");
-    removeBook.classList.add("remove-book-button");
+    removeBook.classList.add("book-card-button");
     removeBook.textContent = "Remove Book";
-    bookCard.appendChild(removeBook);
+    buttonContainer.appendChild(removeBook);
 
     let currentBook = book.id;
 
@@ -66,22 +77,42 @@ function displayBooks(library) {
 
       bookCard.remove();
     });
+
+    let readStatus = document.createElement("button");
+    readStatus.classList.add("book-card-button");
+    readStatus.textContent = book.read ? "Mark as Unread" : "Mark as Read";
+    buttonContainer.appendChild(readStatus);
+
+    readStatus.addEventListener("click", function () {
+      book.changeStatus();
+
+      readStatus.textContent = book.read ? "Mark as Unread" : "Mark as Read";
+
+      bookRead.textContent = book.read
+        ? "You have read this book before"
+        : "You have not read this book yet";
+    });
   });
 }
 
+let newBookButtonContainer = document.createElement("div");
+newBookButtonContainer.classList.add("new-book-button-container");
+document.body.prepend(newBookButtonContainer);
+
 const newBookButton = document.createElement("button");
+newBookButton.classList.add("new-book-button");
 newBookButton.textContent = "New Book";
-document.body.appendChild(newBookButton);
+newBookButtonContainer.appendChild(newBookButton);
 
 newBookButton.addEventListener("click", function () {
   //Spacing
-  document.body.appendChild(document.createElement("br"));
-  document.body.appendChild(document.createElement("br"));
+  newBookButtonContainer.appendChild(document.createElement("br"));
+  newBookButtonContainer.appendChild(document.createElement("br"));
 
   // Form Container
   const formContainer = document.createElement("div");
   formContainer.classList.add("form-container");
-  document.body.appendChild(formContainer);
+  newBookButtonContainer.appendChild(formContainer);
 
   // Book Title Field
   const newTitleLabel = document.createElement("label");
@@ -161,9 +192,14 @@ newBookButton.addEventListener("click", function () {
   formContainer.appendChild(document.createElement("br"));
 
   //Submit Button
+  let submitContainer = document.createElement("div");
+  submitContainer.classList.add("submit-container");
+  formContainer.appendChild(submitContainer);
+
   const submitForm = document.createElement("button");
+  submitForm.classList.add("submit-button");
   submitForm.textContent = "Submit";
-  formContainer.appendChild(submitForm);
+  submitContainer.appendChild(submitForm);
   submitForm.addEventListener("click", function () {
     event.preventDefault();
 
@@ -180,4 +216,26 @@ newBookButton.addEventListener("click", function () {
   });
 });
 
-// const theHobbit = addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 295, true);
+// Dummy Data
+const theHobbit = addBookToLibrary("The Hobbit", "J.R.R. Tolkien", 320, true);
+const harryPotter = addBookToLibrary(
+  "Harry Potter and the Philosopher's Stone",
+  "J.K. Rowling",
+  309,
+  false
+);
+const sunriseOnTheReaping = addBookToLibrary(
+  "Sunrise on the Reaping",
+  "Suzanne Collins",
+  400,
+  true
+);
+const twilight = addBookToLibrary("Twilight", "Stephenie Meyer", 498, false);
+const theHungerGames = addBookToLibrary(
+  "The Hunger Games",
+  "Suzanne Collins",
+  384,
+  false
+);
+
+displayBooks(myLibrary);

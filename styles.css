@@ -9,7 +9,6 @@
   border-radius: 10px;
   height: 300px;
   width: 250px;
-  margin: 2rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -17,8 +16,11 @@
 }
 
 .book-title {
-  font-size: 2rem;
+  font-size: 1.25rem;
+  text-align: center;
   margin: 0.5rem;
+  padding: 1rem;
+  min-height: 5rem;
 }
 
 .book-card > .book-details:nth-of-type(2) {
@@ -32,4 +34,50 @@
 .book-details {
   font-size: 1rem;
   margin: 0.5rem;
+}
+
+.button-container {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.book-card-button {
+  font-size: 12px;
+  padding: 6px;
+  margin: 8px;
+}
+
+.library-container {
+  display: flex;
+  justify-content: space-evenly;
+  margin: 2rem 0;
+}
+
+.new-book-button-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.new-book-button {
+  margin: 0.5rem auto;
+  width: 100px;
+  height: 1.5rem;
+}
+
+.form-container {
+  margin: auto;
+  padding: 1.5rem;
+  border: 1px solid black;
+  border-radius: 10px;
+}
+
+.submit-container {
+  display: flex;
+  justify-content: center;
+}
+
+.submit-button {
+  width: 100px;
+  height: 1.5rem;
 }
